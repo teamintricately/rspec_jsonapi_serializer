@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "rspec_jsonapi_serializer/matchers/belong_to_matcher"
 require "rspec_jsonapi_serializer/matchers/have_attribute_matcher"
 require "rspec_jsonapi_serializer/matchers/have_id_matcher"
 require "rspec_jsonapi_serializer/matchers/have_link_matcher"
@@ -8,6 +9,12 @@ require "rspec_jsonapi_serializer/matchers/have_type_matcher"
 
 module RSpecJSONAPISerializer
   module Matchers
+    # This allows us to assert attributes on a serializer, e.g.:
+    # expect(serializer).to belong_to(:team)
+    def belong_to(expected)
+      BelongToMatcher.new(expected)
+    end
+
     # This allows us to assert attributes on a serializer, e.g.:
     # expect(serializer).to have_attribute(:email)
     # You can test custom attributes by using the submatcher "as".
