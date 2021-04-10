@@ -5,6 +5,7 @@ require "rspec_jsonapi_serializer/matchers/have_attribute_matcher"
 require "rspec_jsonapi_serializer/matchers/have_id_matcher"
 require "rspec_jsonapi_serializer/matchers/have_link_matcher"
 require "rspec_jsonapi_serializer/matchers/have_meta_matcher"
+require "rspec_jsonapi_serializer/matchers/have_one_matcher"
 require "rspec_jsonapi_serializer/matchers/have_type_matcher"
 
 module RSpecJSONAPISerializer
@@ -50,6 +51,12 @@ module RSpecJSONAPISerializer
     end
 
     alias_method :serialize_meta, :have_meta
+
+    # This allows us to assert attributes on a serializer, e.g.:
+    # expect(serializer).to have_one(:team)
+    def have_one(expected)
+      HaveOneMatcher.new(expected)
+    end
 
     # This allows us to assert types on a serializer, e.g.:
     # expect(serializer).to have_type(:salesforce_serializer)
