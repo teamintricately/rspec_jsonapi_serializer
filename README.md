@@ -1,8 +1,6 @@
 # RSpecJSONAPISerializer
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rspec_jsonapi_serializer`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+RSpec matchers for the [jsonapi-serializer](https://github.com/jsonapi-serializer/jsonapi-serializer) gem.
 
 ## Installation
 
@@ -22,7 +20,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Add this line to your RSpec config in `rails_helper.rb` (or `spec_helper.rb` if you're not using Rails):
+
+```ruby
+RSpec.configure do |config|
+  config.include(RSpecJSONAPISerializer::Matchers, type: :serializer)
+end
+```
 
 ## Development
 
@@ -32,7 +36,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rspec_jsonapi_serializer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rspec_jsonapi_serializer/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/teamintricately/rspec_jsonapi_serializer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/teamintricately/rspec_jsonapi_serializer/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
