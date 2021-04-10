@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require "rspec_jsonapi_serializer/matchers/have_attribute_matcher"
-require "rspec_jsonapi_serializer/matchers/have_type_matcher"
+require "rspec_jsonapi_serializer/matchers/have_id_matcher"
 require "rspec_jsonapi_serializer/matchers/have_link_matcher"
 require "rspec_jsonapi_serializer/matchers/have_meta_matcher"
+require "rspec_jsonapi_serializer/matchers/have_type_matcher"
 
 module RSpecJSONAPISerializer
   module Matchers
@@ -16,6 +17,12 @@ module RSpecJSONAPISerializer
     end
 
     alias_method :serialize_attribute, :have_attribute
+
+    # This allows us to assert ids on a serializer, e.g.:
+    # expect(serializer).to have_id(:slug)
+    def have_id(expected)
+      HaveIdMatcher.new(expected)
+    end
 
     # This allows us to assert links on a serializer, e.g.:
     # expect(serializer).to have_link(:self)
