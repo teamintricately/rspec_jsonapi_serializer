@@ -3,6 +3,7 @@
 require "rspec_jsonapi_serializer/matchers/have_attribute_matcher"
 require "rspec_jsonapi_serializer/matchers/have_type_matcher"
 require "rspec_jsonapi_serializer/matchers/have_link_matcher"
+require "rspec_jsonapi_serializer/matchers/have_meta_matcher"
 
 module RSpecJSONAPISerializer
   module Matchers
@@ -25,6 +26,16 @@ module RSpecJSONAPISerializer
     end
 
     alias_method :serialize_link, :have_link
+
+    # This allows us to assert metadata on a serializer, e.g.:
+    # expect(serializer).to have_meta(:foo)
+    # You can test custom metadata by using the submatcher "as".
+    # expect(serializer).to have_meta(:foo).as('bar')
+    def have_meta(expected)
+      HaveMetaMatcher.new(expected)
+    end
+
+    alias_method :serialize_meta, :have_meta
 
     # This allows us to assert types on a serializer, e.g.:
     # expect(serializer).to have_type(:salesforce_serializer)
