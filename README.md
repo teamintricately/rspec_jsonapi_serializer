@@ -88,8 +88,8 @@ RSpec.describe UserSerializer, type: :serializer do
   it { is_expected.to serialize_attribute(:first_name) }
   it { is_expected.to serialize_attribute(:last_name) }
   it { is_expected.to serialize_attribute(:email) }
-  it { is_expected.to serialize_attribute(:created_at).('2021-01-01T00:00:00Z') }
-  it { is_expected.to serialize_attribute(:updated_at).('2021-01-01T00:00:00Z') }
+  it { is_expected.to serialize_attribute(:created_at).as('2021-01-01T00:00:00Z') }
+  it { is_expected.to serialize_attribute(:updated_at).as('2021-01-01T00:00:00Z') }
 
   it { is_expected.to serialize_meta(:blog_posts_count).as(0) }
   it { is_expected.to serialize_link(:self).as('example.com/path/to/user/1') }
