@@ -28,6 +28,74 @@ RSpec.configure do |config|
 end
 ```
 
+Given the following serializer class:
+```ruby
+# app/serializers/user_serializer.rb
+
+class UserSerializer
+  include JSONAPI::Serializer
+
+  set_type :user
+
+  belongs_to :team
+  has_one    :blog
+  has_many   :blog_posts
+
+  attributes :first_name, :last_name, :email
+
+  attribute :created_at do |user|
+    user.created_at.iso8601
+  end
+
+  attribute :updated_at do |user|
+    user.updated_at.iso8601
+  end
+
+  meta do |user|
+    {
+      blog_posts_count: user.blog_posts_count
+    }
+  end
+
+  link(:self) { |user| "example.com/path/to/user/#{user.id}" }
+end
+```
+
+This is how to use `rspec_jsonapi_serializer` in your tests:
+```ruby
+# spec/serializers/user_serializer_spec.rb
+
+RSpec.describe UserSerializer, type: :serializer do
+  subject { described_class.new(user) }
+
+  let(:user) do
+    User.new(
+      id: 1,
+      first_name: 'John',
+      last_name: 'Doe',
+      email: 'john.doe@example.com',
+      created_at: Time.utc(2021),
+      updated_at: Time.utc(2021)
+    )
+  end
+
+  it { is_expected.to have_type(:user) }
+
+  it { is_expected.to belong_to(:team) }
+  it { is_expected.to have_one(:blog) }
+  it { is_expected.to have_many(:blog_posts) }
+
+  it { is_expected.to serialize_attribute(:first_name) }
+  it { is_expected.to serialize_attribute(:last_name) }
+  it { is_expected.to serialize_attribute(:email) }
+  it { is_expected.to serialize_attribute(:created_at).('2021-01-01T00:00:00Z') }
+  it { is_expected.to serialize_attribute(:updated_at).('2021-01-01T00:00:00Z') }
+
+  it { is_expected.to serialize_meta(:blog_posts_count).as(0) }
+  it { is_expected.to serialize_link(:self).as('example.com/path/to/user/1') }
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
