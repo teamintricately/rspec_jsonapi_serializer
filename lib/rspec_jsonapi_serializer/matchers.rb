@@ -13,6 +13,8 @@ module RSpecJSONAPISerializer
   module Matchers
     # This allows us to assert attributes on a serializer, e.g.:
     # expect(serializer).to belong_to(:team)
+    # If you have a custom serializer, you can assert its value with the `serializer` submatcher
+    # expect(serializer).to belong_to(:team).serializer(TeamSerializer)
     def belong_to(expected)
       BelongToMatcher.new(expected)
     end
@@ -45,6 +47,8 @@ module RSpecJSONAPISerializer
 
     # This allows us to assert attributes on a serializer, e.g.:
     # expect(serializer).to have_many(:teams)
+    # If you have a custom serializer, you can assert its value with the `serializer` submatcher
+    # expect(serializer).to have_many(:teams).serializer(TeamSerializer)
     def have_many(expected)
       HaveManyMatcher.new(expected)
     end
@@ -61,6 +65,8 @@ module RSpecJSONAPISerializer
 
     # This allows us to assert attributes on a serializer, e.g.:
     # expect(serializer).to have_one(:team)
+    # If you have a custom serializer, you can assert its value with the `serializer` submatcher
+    # expect(serializer).to have_one(:team).serializer(TeamSerializer)
     def have_one(expected)
       HaveOneMatcher.new(expected)
     end
