@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "rspec_jsonapi_serializer/matchers/base"
+require "rspec_jsonapi_serializer/matchers/association_matchers/serializer_matcher"
+require "rspec_jsonapi_serializer/metadata/relationships"
 
 module RSpecJSONAPISerializer
   module Matchers
@@ -15,8 +17,13 @@ module RSpecJSONAPISerializer
       def matches?(serializer_instance)
         @serializer_instance = serializer_instance
 
-        relationships.select { |_, r| r.relationship_type == relationship_type }
-                     .has_key?(expected)
+        relationship_matches? && submatchers_match?
+      end
+
+      def serializer(value)
+        add_submatcher AssociationMatchers::SerializerMatcher.new(value, expected)
+
+        self
       end
 
       def main_failure_message
@@ -31,8 +38,12 @@ module RSpecJSONAPISerializer
         "expected #{serializer_name} to #{association_message} #{expected}"
       end
 
+      def relationship_matches?
+        actual.present? && actual.relationship_type == relationship_type
+      end
+
       def actual_message
-        actual ? "got :#{actual} instead" : nil
+        actual ? "got :#{actual.relationship_type} instead" : nil
       end
 
       def association_message
@@ -40,11 +51,15 @@ module RSpecJSONAPISerializer
       end
 
       def actual
-        relationships.key(expected) || relationship.key(expected.to_s)
+        metadata.relationship(expected)
       end
 
       def relationships
-        @relationships ||= serializer_instance.class&.relationships_to_serialize || {}
+        metadata.relationships
+      end
+
+      def metadata
+        Metadata::Relationships.new(serializer_instance)
       end
     end
   end
