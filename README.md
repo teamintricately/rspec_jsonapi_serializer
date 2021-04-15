@@ -39,7 +39,7 @@ class UserSerializer
 
   belongs_to :team
   has_one    :blog
-  has_many   :blog_posts
+  has_many   :blog_posts, serializer: PostSerializer
 
   attributes :first_name, :last_name, :email
 
@@ -83,7 +83,7 @@ RSpec.describe UserSerializer, type: :serializer do
 
   it { is_expected.to belong_to(:team) }
   it { is_expected.to have_one(:blog) }
-  it { is_expected.to have_many(:blog_posts) }
+  it { is_expected.to have_many(:blog_posts).serializer(PostSerializer) }
 
   it { is_expected.to serialize_attribute(:first_name) }
   it { is_expected.to serialize_attribute(:last_name) }
