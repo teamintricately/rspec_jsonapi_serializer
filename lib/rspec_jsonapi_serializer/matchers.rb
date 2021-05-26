@@ -15,6 +15,8 @@ module RSpecJSONAPISerializer
     # expect(serializer).to belong_to(:team)
     # If you have a custom serializer, you can assert its value with the `serializer` submatcher
     # expect(serializer).to belong_to(:team).serializer(TeamSerializer)
+    # If you have a custom id, you can assert its value with the `id_method_name` submatcher
+    # expect(serializer).to belong_to(:team).id_method_name(:team_slug)
     def belong_to(expected)
       BelongToMatcher.new(expected)
     end
@@ -49,6 +51,8 @@ module RSpecJSONAPISerializer
     # expect(serializer).to have_many(:teams)
     # If you have a custom serializer, you can assert its value with the `serializer` submatcher
     # expect(serializer).to have_many(:teams).serializer(TeamSerializer)
+    # If you have a custom id, you can assert its value with the `id_method_name` submatcher
+    # expect(serializer).to have_many(:teams).id_method_name(:team_slugs)
     def have_many(expected)
       HaveManyMatcher.new(expected)
     end
@@ -67,6 +71,8 @@ module RSpecJSONAPISerializer
     # expect(serializer).to have_one(:team)
     # If you have a custom serializer, you can assert its value with the `serializer` submatcher
     # expect(serializer).to have_one(:team).serializer(TeamSerializer)
+    # If you have a custom id, you can assert its value with the `id_method_name` submatcher
+    # expect(serializer).to have_one(:team).id_method_name(:team_slug)
     def have_one(expected)
       HaveOneMatcher.new(expected)
     end
