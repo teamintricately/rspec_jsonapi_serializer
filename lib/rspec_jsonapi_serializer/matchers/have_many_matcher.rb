@@ -17,6 +17,10 @@ module RSpecJSONAPISerializer
         association_matcher.id_method_name(value)
       end
 
+      def object_method_name(value)
+        association_matcher.object_method_name(value)
+      end
+
       def serializer(value)
         association_matcher.serializer(value)
       end

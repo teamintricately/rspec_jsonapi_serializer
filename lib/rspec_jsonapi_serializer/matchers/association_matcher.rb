@@ -3,6 +3,7 @@
 require "rspec_jsonapi_serializer/matchers/base"
 require "rspec_jsonapi_serializer/matchers/association_matchers/serializer_matcher"
 require "rspec_jsonapi_serializer/matchers/association_matchers/id_method_name_matcher"
+require "rspec_jsonapi_serializer/matchers/association_matchers/object_method_name_matcher"
 require "rspec_jsonapi_serializer/metadata/relationships"
 
 module RSpecJSONAPISerializer
@@ -29,6 +30,12 @@ module RSpecJSONAPISerializer
 
       def id_method_name(value)
         add_submatcher AssociationMatchers::IdMethodNameMatcher.new(value, expected)
+
+        self
+      end
+
+      def object_method_name(value)
+        add_submatcher AssociationMatchers::ObjectMethodNameMatcher.new(value, expected)
 
         self
       end
